@@ -1,9 +1,11 @@
-FROM python:3.10-slim
+FROM python:3.9-slim
 
 WORKDIR /app
 
-RUN pip install --no-cache-dir pandas redis numpy
+COPY requirements.txt .
+RUN pip install --no-cache-dir -r requirements.txt
 
 COPY . .
 
-CMD ["python", "app.py"]
+# El comando CMD se sobreescribirá en el docker-compose.yml
+CMD ["python", "consumer.py"]   
