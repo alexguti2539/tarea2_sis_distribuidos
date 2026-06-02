@@ -1,0 +1,15 @@
+services:
+  redis_cache:
+    image: redis:alpine
+    command: redis-server --maxmemory 50mb --maxmemory-policy allkeys-lru
+    ports:
+      - "6379:6379"
+
+  app:
+    build: .
+    volumes:
+      - .:/app
+    depends_on:
+      - redis_cache
+    environment:
+      - REDIS_HOST=redis_cache
